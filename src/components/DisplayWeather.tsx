@@ -26,49 +26,48 @@ const DisplayWeather = () => {
   const api2Key = "a93645bc49774f2580716da1a04e38ea"
   const [location, setLocation] = useState('')
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
+  const [shouldEffect, setShouldEffect] = useState(false)
 
   useEffect(() => {
     const fetchLocation = async () => {
       try {
         let response1 = ''
-        try {
-          const initResponse = await fetch("https://api.ipify.org/?format=json")
-          if(!initResponse.ok) throw new Error('Could not find ip!')
-          const data1 = await initResponse.json()
-          console.log(data1)
-          response1 = data1.ip
-        }
-        catch(error) {
-          response1 = 'error'
-        }
+  
+        const initResponse = await fetch("https://api.ipify.org/?format=json")
+        if(!initResponse.ok) throw new Error('Could not find ip!')
+        const data1 = await initResponse.json()
+        response1 = data1.ip
+        console.log(response1)
 
-        if(response1 == 'error'){
-          throw new Error('Could not find IP')
-        }
         const response = await fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${api2Key}&ip=${response1}`)
-        if(!response.ok) {
-          throw new Error('Could not find geolocation from ip!')
-        }
+        if(!response.ok) throw new Error('Could not find geolocation from ip!')
         const data = await response.json()
-        setLocation(`${data.city.name}  ${data.state.name}`)
+
+        setLocation(`${data.city.name} ${data.state.name}`)
+        setShouldEffect(true)
+        console.log(location)
         console.log(data)
       }
       catch(error){
         console.log(error)
         setLocation('New York')
+        setShouldEffect(true)
       }
     }
     fetchLocation()
   },[])
 
   useEffect(() => {
-    fetchData()
-  },[location])
+    if(shouldEffect == true){
+      console.log(location)
+      fetchData()
+    }
+  },[shouldEffect])
 
   const fetchData = async () => {
     try{
       const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=1&aqi=no&alerts=no`)
-      if(!response.ok) throw new Error("Could not Fetch Data")
+      if(!response.ok) throw new Error("Could not Fetch Data!!!!")
       const data = await response.json()
       console.log(data)
 
@@ -85,7 +84,7 @@ const DisplayWeather = () => {
       setWeatherData({name, country, region, hiTemp, loTemp, temp, condition, humidity, uv})
     }
     catch(error){
-      console.log(error)
+      console.error(error)
       const name = 'null'
       const region = 'null'
       const hiTemp = 'null'
