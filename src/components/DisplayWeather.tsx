@@ -23,12 +23,47 @@ const DisplayWeather = () => {
   }
 
   const apiKey: string = "5b661caaeb7c4a76983214453242606"
-  const [location, setLocation] = useState('New York')
+  const api2Key = "a93645bc49774f2580716da1a04e38ea"
+  const [location, setLocation] = useState('')
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
 
   useEffect(() => {
-    fetchData()
+    const fetchLocation = async () => {
+      try {
+        let response1 = ''
+        try {
+          const initResponse = await fetch("https://api.ipify.org/?format=json")
+          if(!initResponse.ok) throw new Error('Could not find ip!')
+          const data1 = await initResponse.json()
+          console.log(data1)
+          response1 = data1.ip
+        }
+        catch(error) {
+          response1 = 'error'
+        }
+
+        if(response1 == 'error'){
+          throw new Error('Could not find IP')
+        }
+        const response = await fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${api2Key}&ip=${response1}`)
+        if(!response.ok) {
+          throw new Error('Could not find geolocation from ip!')
+        }
+        const data = await response.json()
+        setLocation(`${data.city.name}  ${data.state.name}`)
+        console.log(data)
+      }
+      catch(error){
+        console.log(error)
+        setLocation('New York')
+      }
+    }
+    fetchLocation()
   },[])
+
+  useEffect(() => {
+    fetchData()
+  },[location])
 
   const fetchData = async () => {
     try{
@@ -100,7 +135,7 @@ const DisplayWeather = () => {
           <div className="others">
             <div className="jawn2">
               <WiHumidity className="icon2 humidityIcon"/>
-              <h2>{weatherData?.humidity}{weatherData?.humidity !== 'null' ? "°F" : null}</h2>  
+              <h2>{weatherData?.humidity}{weatherData?.humidity !== 'null' ? "%" : null}</h2>  
             </div>
             <div className="jawn2">
               <TbUvIndex className="icon2 uvIcon"/>
