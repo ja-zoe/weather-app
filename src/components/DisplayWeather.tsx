@@ -18,7 +18,8 @@ const DisplayWeather = () => {
     temp: number | string,
     condition: string,
     humidity: number | string,
-    uv: number | string
+    uv: number | string,
+    country: string | null
   }
 
   const apiKey: string = "5b661caaeb7c4a76983214453242606"
@@ -44,8 +45,9 @@ const DisplayWeather = () => {
       const condition = data.current.condition.text
       const humidity = data.current.humidity
       const uv = data.current.uv
+      const country = data.location.country
 
-      setWeatherData({name, region, hiTemp, loTemp, temp, condition, humidity, uv})
+      setWeatherData({name, country, region, hiTemp, loTemp, temp, condition, humidity, uv})
     }
     catch(error){
       console.log(error)
@@ -57,8 +59,9 @@ const DisplayWeather = () => {
       const condition = 'Not a Real Place'
       const humidity = 'null'
       const uv = 'null'
+      const country = 'null'
 
-      setWeatherData({name, region, hiTemp, loTemp, temp, condition, humidity, uv})
+      setWeatherData({name, region, country, hiTemp, loTemp, temp, condition, humidity, uv})
     }
   }
 
@@ -74,7 +77,9 @@ const DisplayWeather = () => {
         
         <div className="location">
           <h2>{weatherData?.name}</h2>
-          <p>{weatherData?.region}</p>
+          <div className="rCountry">
+            <p>{weatherData?.region}, {weatherData?.country}</p>
+          </div>
         </div>
 
         <div className="forecast">
