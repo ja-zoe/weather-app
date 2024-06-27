@@ -22,8 +22,6 @@ const DisplayWeather = () => {
     country: string | null
   }
 
-  const apiKey: string = "5b661caaeb7c4a76983214453242606"
-  const api2Key = "a93645bc49774f2580716da1a04e38ea"
   const [location, setLocation] = useState('')
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
   const [shouldEffect, setShouldEffect] = useState(false)
@@ -39,7 +37,7 @@ const DisplayWeather = () => {
         response1 = data1.ip
         console.log(response1)
 
-        const response = await fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${api2Key}&ip=${response1}`)
+        const response = await fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${import.meta.env.VITE_LOCATION_API_KEY}&ip=${response1}`)
         if(!response.ok) throw new Error('Could not find geolocation from ip!')
         const data = await response.json()
 
@@ -66,7 +64,7 @@ const DisplayWeather = () => {
 
   const fetchData = async () => {
     try{
-      const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=1&aqi=no&alerts=no`)
+      const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${location}&days=1&aqi=no&alerts=no`)
       if(!response.ok) throw new Error("Could not Fetch Data!!!!")
       const data = await response.json()
       console.log(data)
