@@ -1,0 +1,145 @@
+.container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(36, 36, 36);
+}
+
+.weather {
+    background: #E1D6C5;
+    border-radius: 20px;
+    height: 65%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchArea {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 7%;
+    align-items: center;
+    margin-top: 15%;
+    margin-bottom: 10%;
+    position: relative;
+}
+
+.input {
+    border-radius: 30px;
+    height: 100%;
+    width: 70%;
+    border: none;
+    background-color: rgb(72, 90, 116);
+    color: #dedede;
+    text-align: center;
+}
+
+.input::placeholder {
+    color: #dedede ;
+} 
+
+.input:focus {
+    outline: none;
+}
+
+.location {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.forecast {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 60%;
+}
+
+.hiLow {
+    padding-top: 3%;
+    display: flex;
+    gap: 8%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 3rem;
+    color: rgb(36, 36, 36);
+}
+
+h2{
+    color: rgb(73, 78, 87);
+}
+
+p {
+    color: rgb(73, 78, 87);;
+}
+
+.icon1 {
+    color: rgb(36, 36, 36);
+}
+
+.condition {
+    font-size: 1.3rem;
+    width: 90%;
+    text-align: center;
+    color: rgb(73, 78, 87);
+}
+
+.icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.search {
+    font-size: 150%;
+    cursor: pointer;
+    position: absolute;
+    right: 5%;
+    color: rgb(36, 36, 36);
+}
+
+.jawn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7%;
+}
+
+.others {
+    display: flex;
+    width: 100%;
+    height: 30%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+    gap: 15%;
+}
+
+.icon2 {
+    font-size: 4rem;
+}
+
+.jawn2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uvh2 {
+    margin-left: 17%;
+}
+
+.uvIcon {
+    color: rgb(134, 7, 7);
+}
+
+.humidityIcon {
+    color: rgb(0, 0, 167);
+}
