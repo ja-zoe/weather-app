@@ -12,6 +12,6 @@ RUN npm run build
 
 RUN npm i -g http-server
 
-EXPOSE 8080
+EXPOSE 8082
 
 CMD ["http-server", "dist", "-p", "8082"]
