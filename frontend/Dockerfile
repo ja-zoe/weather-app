@@ -1,4 +1,4 @@
-FROM node:lts-alpine AS development
+FROM node:lts-alpine AS frontend
 
 WORKDIR /app
 
@@ -14,4 +14,4 @@ RUN npm i -g http-server
 
 EXPOSE 8080
 
-CMD ["http-server", "dist", "-p", "8080"]
+CMD ["http-server", "dist", "-p", "8082"]
