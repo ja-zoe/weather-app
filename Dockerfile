@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine AS development
 
 WORKDIR /app
 
@@ -8,6 +8,10 @@ RUN npm i
 
 COPY . .
 
-EXPOSE 5173
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+RUN npm i -g http-server
+
+EXPOSE 8080
+
+CMD ["http-server", "dist", "-p", "8080"]
