@@ -2,7 +2,7 @@ FROM node:lts-alpine AS backend
 
 WORKDIR /server
 
-COPY package*.json
+COPY package*.json .
 
 RUN npm i
 
