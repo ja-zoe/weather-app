@@ -11,6 +11,7 @@ import './weather.css'
 const DisplayWeather = () => {
 
   interface WeatherData {
+    error?: string,
     name: string,
     region: string,
     hiTemp: number | string,
@@ -22,81 +23,66 @@ const DisplayWeather = () => {
     country: string | null
   }
 
-  const [location, setLocation] = useState('')
+  const [location, setLocation] = useState<string | null>(null)
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
-  const [shouldEffect, setShouldEffect] = useState(false)
+  const [ip, setIp] = useState<string | null>(null)
+  const [shouldEffect, setShouldEffect] = useState<boolean>(false)
 
   useEffect(() => {
-    const fetchLocation = async () => {
+    const fetchIP = async () => {
       try {
-        let response1 = ''
-  
-        const initResponse = await fetch("https://api.ipify.org/?format=json")
-        if(!initResponse.ok) throw new Error('Could not find ip!')
-        const data1 = await initResponse.json()
-        response1 = data1.ip
-        console.log(response1)
-
-        const response = await fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${import.meta.env.VITE_LOCATION_API_KEY}&ip=${response1}`)
-        if(!response.ok) throw new Error('Could not find geolocation from ip!')
-        const data = await response.json()
-
-        setLocation(`${data.city.name} ${data.state.name}`)
+        const ipResponse = await fetch("https://api.ipify.org/?format=json")
+        if(!ipResponse.ok) throw new Error('Could not find ip!')
+        const ipData = await ipResponse.json()
         setShouldEffect(true)
-        console.log(location)
-        console.log(data)
+        setIp(ipData.ip)
       }
       catch(error){
-        console.log(error)
-        setLocation('New York')
-        setShouldEffect(true)
+        console.error("Could not fetch IP!")
+        fetchData()
       }
     }
-    fetchLocation()
+    fetchIP()
   },[])
 
   useEffect(() => {
-    if(shouldEffect == true){
-      console.log(location)
-      fetchData()
-    }
-  },[shouldEffect])
+    if(shouldEffect) fetchData()
+  },[ip])
+
 
   const fetchData = async () => {
-    try{
-      const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${location}&days=1&aqi=no&alerts=no`)
-      if(!response.ok) throw new Error("Could not Fetch Data!!!!")
+    try {
+      const response = await fetch(`http://localhost:8080/api/location?ip=${ip}&location=${location}`)
+      if(!response.ok) throw new Error("Couldn't Receive Location Data!")
       const data = await response.json()
       console.log(data)
-
-      const name = data.location.name
-      const region = data.location.region
-      const hiTemp = data.forecast.forecastday[0].day.maxtemp_f
-      const loTemp = data.forecast.forecastday[0].day.mintemp_f
-      const temp = data.current.temp_f
-      const condition = data.current.condition.text
-      const humidity = data.current.humidity
-      const uv = data.current.uv
-      const country = data.location.country
-
-      setWeatherData({name, country, region, hiTemp, loTemp, temp, condition, humidity, uv})
+      setWeatherData({
+        name: data.name,
+        region: data.region,
+        hiTemp: data.hiTemp,
+        loTemp: data.loTemp,
+        temp: data.temp,
+        condition: data.condition,
+        humidity: data.humidity,
+        uv: data.uv,
+        country: data.country
+      })
     }
-    catch(error){
-      console.error(error)
-      const name = 'null'
-      const region = 'null'
-      const hiTemp = 'null'
-      const loTemp = 'null'
-      const temp = 'Unlisted'
-      const condition = 'Not a Real Place'
-      const humidity = 'null'
-      const uv = 'null'
-      const country = 'null'
-
-      setWeatherData({name, region, country, hiTemp, loTemp, temp, condition, humidity, uv})
+    catch(error) {
+      console.log(error)
+      setWeatherData({
+        name: 'null',
+        region: 'null',
+        hiTemp: 'null',
+        loTemp: 'null',
+        temp: 'null',
+        condition: 'null',
+        humidity: 'null',
+        uv: 'null',
+        country: 'null'
+      })
     }
-  }
-
+  }  
 
   return (
     <div className="container">
