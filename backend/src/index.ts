@@ -5,7 +5,6 @@ dotenv.config()
 
 const PORT = 8080
 const app = express()
-app.use(cors)
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY
 
 app.use(cors())
@@ -14,9 +13,9 @@ app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
 
 app.get('/api/location', async (req, res) => {
     const ip = req.query.ip || null
-    let location = req.query.location || null
+    let location = req.query.location || "New York"
 
-    if(ip) {
+    if(ip && location === 'null') {
         try {
             const response = await fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${process.env.LOCATION_API_KEY}&ip=${ip}`)
             if(!response.ok) throw new Error('Could not find geolocation from IP!')
@@ -48,6 +47,7 @@ app.get('/api/location', async (req, res) => {
     catch(error) {
         console.error(error)
         res.json({
+            error: error.message,
             name: "null",
             region: "null",
             hiTemp: "null",
