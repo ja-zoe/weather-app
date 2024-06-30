@@ -69,10 +69,13 @@ const DisplayWeather = () => {
       })
     }
     catch(error) {
+      let message = ''
+      if(error instanceof Error) message = error.message
+    
       console.log(error)
       setWeatherData({
         name: 'null',
-        region: 'null',
+        region: message,
         hiTemp: 'null',
         loTemp: 'null',
         temp: 'null',
