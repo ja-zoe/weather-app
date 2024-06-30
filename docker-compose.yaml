@@ -1,14 +1,20 @@
-version: "3"
-  services:
+version: "3.9"
+services:
+  backend:
+    container_name: weather-api
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - WEATHER_API_KEY=5b661caaeb7c4a76983214453242606
+      - LOCATION_API_KEY=a93645bc49774f2580716da1a04e38ea
 
-    backend:
-      build:
-        context: ./backend
-      ports:
-        - "8081:8080"
-
-    frontend:
-      build:
-        context: ./frontend
-      ports:
-        - "8080:8082"
+  frontend:
+    container_name: weather-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8082"
