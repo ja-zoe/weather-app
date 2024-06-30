@@ -92,7 +92,6 @@ const DisplayWeather = () => {
       <div className="weather">
 
         <div className="searchArea">
-          foo
           <input className="input" type="text" placeholder="Enter A City" onChange={e => setLocation(e.target.value)}/>
           <IoSearchSharp className="search" onClick={fetchData}/>
         </div>
