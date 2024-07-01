@@ -11,6 +11,10 @@ app.use(cors())
 
 app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
 
+app.get('/', (req, res) => {
+    res.send("Server is Running")
+})
+
 app.get('/api/location', async (req, res) => {
     const ip = req.query.ip || null
     let location = req.query.location || "New York"
