@@ -52,7 +52,7 @@ const DisplayWeather = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8081/api/location?ip=${ip}&location=${location}`)
+      const response = await fetch(`http://13.59.118.183:8080/api/location?ip=${ip}&location=${location}`)
       if(!response.ok) throw new Error("Couldn't Receive Location Data!")
       const data = await response.json()
       console.log(data)
