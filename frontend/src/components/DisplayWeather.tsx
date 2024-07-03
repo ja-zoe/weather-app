@@ -49,16 +49,6 @@ const DisplayWeather = () => {
     if(shouldEffect) fetchData()
   },[ip])
 
-  useEffect(() => {
-    const jawn = async () => {
-      const response = await fetch("https://thewevuh.netlify.app/api/location?location=Maryland")
-      const data = await response.json()
-      console.log(data.name)
-    }
-    jawn()
-  })
-
-
   const fetchData = async () => {
     try {
       const response = await fetch(`https://thewevuh.netlify.app/api/location?ip=${ip}&location=${location}`)
