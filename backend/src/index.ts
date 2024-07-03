@@ -1,13 +1,14 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from "dotenv"
+import serverlessHttp from 'serverless-http'
 dotenv.config()
 
 const PORT = 8080
 const app = express()
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY
 
-app.use(cors())
+// add cors if vercel doesn't work
 
 app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
 
@@ -65,3 +66,5 @@ app.get('/api/location', async (req, res) => {
     }
 
 })
+
+module.exports.handler = serverlessHttp(app)
