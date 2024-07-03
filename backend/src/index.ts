@@ -9,6 +9,7 @@ const app = express()
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY
 
 // add cors if vercel doesn't work
+app.use(cors())
 
 app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
 
