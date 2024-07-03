@@ -90,10 +90,10 @@ const DisplayWeather = () => {
     <div className="container">
       <div className="weather">
 
-        <div className="searchArea">
+        <form className="searchArea" onSubmit={(e) => { e.preventDefault(); fetchData()}}>
           <input className="input" type="text" placeholder="Enter A City" onChange={e => setLocation(e.target.value)}/>
-          <IoSearchSharp className="search" onClick={fetchData}/>
-        </div>
+          <IoSearchSharp className="search" type="submit"/>
+        </form>
         
         <div className="location">
           <h2>{weatherData?.name}</h2>
